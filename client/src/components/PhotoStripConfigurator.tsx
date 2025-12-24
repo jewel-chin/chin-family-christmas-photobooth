@@ -1,5 +1,5 @@
 import Sketch from "@uiw/react-color-sketch";
-import { filters, PRESET_COLORS } from "../constants/const";
+import { frames, filters, PRESET_COLORS } from "../constants/const";
 import downloadIcon from "../assets/download.png";
 import shareIcon from "../assets/share.png";
 import { handleShare, handleDownload } from "../helpers/helpers";
@@ -23,6 +23,8 @@ type Props = {
   isGeneratingQr: boolean;
   fontFamily: string;
   setFontFamily: React.Dispatch<React.SetStateAction<string>>;
+  setFrame: React.Dispatch<React.SetStateAction<keyof typeof frames>>;
+  frame: keyof typeof frames;
 };
 
 export const PhotoStripConfigurator = ({
@@ -42,6 +44,8 @@ export const PhotoStripConfigurator = ({
   isGeneratingQr,
   fontFamily,
   setFontFamily,
+  setFrame,
+  frame,
 }: Props) => {
   return (
     <div className="flex flex-col items-center gap-4">
@@ -75,41 +79,75 @@ export const PhotoStripConfigurator = ({
             ))}
           </div>
 
-          {/* CUSTOM TEXT SECTION */}
-          <div className="flex flex-col gap-2 p-3 bg-[#7c6f64]/50 rounded-md">
-            <AddMessageInput
-              customText={customText}
-              setCustomText={setCustomText}
-            />
-            <FontSelector
-              selectedFont={fontFamily}
-              setSelectedFont={setFontFamily}
-            />
-            <div className="flex gap-2 mt-1">
-              <button
-                onClick={() => setTextColor("white")}
-                className={`text-sm ${
-                  textColor === "white" ? "base-button" : "unselected-button"
-                }`}
-              >
-                White Text
-              </button>
-              <button
-                onClick={() => setTextColor("black")}
-                className={`text-sm ${
-                  textColor === "black" ? "base-button" : "unselected-button"
-                }`}
-              >
-                Black Text
-              </button>
-            </div>
-            <button
-              className="unselected-button"
-              onClick={() => setShowDate(!showDate)}
+          {/* custom frames */}
+
+          <div className="flex flex-row gap-2">
+            <label className="text-sm mr-2 self-center">Frames:</label>
+            <select
+              value={frame}
+              onChange={(e) =>
+                setFrame(
+                  frames[
+                    e.target.value as keyof typeof frames
+                  ] as keyof typeof frames
+                )
+              }
+              className="w-full py-1 bg-cream border border-white/20 rounded text-[0.6em] tracking-normal outline-none focus:border-white/50 transition-colors"
             >
-              {showDate ? "Hide Date" : "Show Date"}
+              {Object.keys(frames).map((key) => (
+                <option key={key} value={key} selected={frame === key}>
+                  {key}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={() => setFrame("none")}
+              className={`
+                        ${
+                          frame === "none" ? "base-button" : "unselected-button"
+                        }`}
+            >
+              No Frame
             </button>
           </div>
+
+          {/* CUSTOM TEXT SECTION */}
+          {frame === "none" && (
+            <div className="flex flex-col gap-2 p-3 bg-[#7c6f64]/50 rounded-md">
+              <AddMessageInput
+                customText={customText}
+                setCustomText={setCustomText}
+              />
+              <FontSelector
+                selectedFont={fontFamily}
+                setSelectedFont={setFontFamily}
+              />
+              <div className="flex gap-2 mt-1">
+                <button
+                  onClick={() => setTextColor("white")}
+                  className={`text-sm ${
+                    textColor === "white" ? "base-button" : "unselected-button"
+                  }`}
+                >
+                  White Text
+                </button>
+                <button
+                  onClick={() => setTextColor("black")}
+                  className={`text-sm ${
+                    textColor === "black" ? "base-button" : "unselected-button"
+                  }`}
+                >
+                  Black Text
+                </button>
+              </div>
+              <button
+                className="unselected-button"
+                onClick={() => setShowDate(!showDate)}
+              >
+                {showDate ? "Hide Date" : "Show Date"}
+              </button>
+            </div>
+          )}
 
           <div className="flex flex-row items-center gap-2">
             <button

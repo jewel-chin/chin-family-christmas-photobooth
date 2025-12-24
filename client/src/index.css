@@ -9,10 +9,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Type Mixers Brand Colors: #392d28 (dark brown), #bc9c74 (cardboard brown) */
 :root {
   --dark-brown: #392d28;
-  --cream: #fbf7f5;
+  --cream: #edece8;
+  --red: #6f0707;
 }
 
 body {
@@ -27,10 +27,13 @@ body {
 }
 
 .custom-photobooth-strip {
-  @apply flex flex-col items-center p-4 pb-2;
-  background: var(--dark-brown);
+  @apply flex flex-wrap justify-center items-center p-3 pb-5;
+  background: var(--red);
 }
 
+.custom-frame-photobooth-strip {
+  @apply flex flex-wrap justify-center items-center p-0;
+}
 .base-button {
   @apply text-sm bg-dark-brown text-cream py-1 px-4 rounded hover:bg-red-900 transition-colors duration-300;
 }

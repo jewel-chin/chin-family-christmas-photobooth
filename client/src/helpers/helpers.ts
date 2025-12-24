@@ -76,7 +76,7 @@ export const handleDownload = async (
 
     const dataUrl = await toPng(stripRef.current);
     const link = document.createElement("a");
-    link.download = "photo_strip_type_mixers.png";
+    link.download = "christmas_photostrip.png";
     link.href = dataUrl;
     link.click();
   } catch (err) {
@@ -144,14 +144,14 @@ export const startCaptureSequence = ({
           await new Promise((res) => setTimeout(res, 1000));
         } else if (count === 0) {
           playShutter();
+          takePhoto();
           await new Promise((res) => setTimeout(res, 500));
         }
         count -= 1;
       }
-      takePhoto();
       await new Promise((res) => setTimeout(res, 500));
     }
-    setIsStarted(false); // Move to finished state
+    setIsStarted(false);
   };
   runSequence();
 };

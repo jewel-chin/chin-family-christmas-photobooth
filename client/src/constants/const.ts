@@ -1,13 +1,24 @@
 import countDown_3 from "../assets/countdown_3.png";
 import countDown_2 from "../assets/countdown_2.png";
 import countDown_1 from "../assets/countdown_1.png";
+import lace from "../assets/frames/lace.png";
+import festive_christmas from "../assets/frames/festive_christmas.png";
+import green_frame from "../assets/frames/green_frame.png";
 
 export const filters = {
   none: "",
   greyscale: "greyscale",
 };
 
-export const WORKER_URL = "https://photobooth.type-mixers.workers.dev";
+export const frames = {
+  none: "",
+  lace,
+  festive_christmas,
+  green_frame,
+};
+
+export const WORKER_URL = "https://photobooth.by-jewel.workers.dev";
+
 export const VIDEO_CONSTRAINTS = {
   width: 1280,
   height: 720,

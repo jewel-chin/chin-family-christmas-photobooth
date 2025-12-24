@@ -1,5 +1,4 @@
 import PixelsImage from "react-pixels";
-import TypeMixersLogo from "../assets/type_logo.png";
 
 type Props = {
   stripRef: React.RefObject<HTMLDivElement | null>;
@@ -11,6 +10,7 @@ type Props = {
   showDate: boolean;
   todayDate: string;
   fontFamily: string;
+  frame: string;
 };
 
 export const PhotoStrip = ({
@@ -23,11 +23,12 @@ export const PhotoStrip = ({
   showDate,
   todayDate,
   fontFamily,
+  frame,
 }: Props) => {
-  return (
+  const DefaultPhotoStrip = () => (
     <div
       ref={stripRef}
-      className="custom-photobooth-strip scale-80"
+      className="custom-photobooth-strip"
       style={{
         backgroundColor: photoStripBgColor,
       }}
@@ -37,17 +38,16 @@ export const PhotoStrip = ({
           key={index}
           src={imgSrc}
           style={{
-            filter: filter === "greyscale" ? "contrast(130%)" : "none",
+            filter: filter === "greyscale" ? "contrast(150%)" : "none",
           }}
           filter={filter}
-          className="w-[250px] mb-2"
+          className="w-1/2"
         />
       ))}
-      <img src={TypeMixersLogo} alt="logo" className="w-24 pt-4 pb-2" />
-      <div className="flex flex-col items-center px-4 pb-4 w-[250px]">
+      <div className="flex flex-col items-center mt-4 gap-2 w-full">
         <span
           style={{ fontFamily: fontFamily }}
-          className={`photo-strip-text text-sm w-full ${
+          className={`photo-strip-text text-md w-full ${
             textColor === "white" ? "text-white" : "text-black"
           }`}
         >
@@ -56,7 +56,7 @@ export const PhotoStrip = ({
         {showDate && (
           <span
             style={{ fontFamily: fontFamily }}
-            className={`photo-strip-text text-xs mt-2 ${
+            className={`photo-strip-text text-sm ${
               textColor === "white" ? "text-white" : "text-black"
             }`}
           >
@@ -64,6 +64,40 @@ export const PhotoStrip = ({
           </span>
         )}
       </div>
+    </div>
+  );
+
+  const CustomFrameStrip = () => (
+    <div
+      ref={stripRef}
+      className="relative inline-grid place-items-center w-[500px] h-[500px]"
+    >
+      {/* Images */}
+      <div className="custom-frame-photobooth-strip z-10">
+        {capturedImages.map((imgSrc, index) => (
+          <PixelsImage
+            key={index}
+            src={imgSrc}
+            className="w-[200px] h-[115px]"
+            filter={filter}
+          />
+        ))}
+      </div>
+
+      {/* Frame */}
+      {frame && (
+        <img
+          src={frame}
+          className="z-20 object-contain w-full h-full pointer-events-none absolute"
+          alt="frame overlay"
+        />
+      )}
+    </div>
+  );
+
+  return (
+    <div className="relative w-full h-full">
+      {frame !== "none" ? <CustomFrameStrip /> : <DefaultPhotoStrip />}
     </div>
   );
 };
