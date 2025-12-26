@@ -15,6 +15,7 @@ import { CameraFlash } from "../components/CameraFlash";
 import start from "../assets/envelope_card_final.png";
 import Snowfall from "react-snowfall";
 import arrow from "../assets/arrow.png";
+import useIsMobile from "../helpers/useIsMobile";
 
 const PhotoBooth: React.FC = () => {
   const stripRef = useRef(null);
@@ -35,6 +36,7 @@ const PhotoBooth: React.FC = () => {
   const isInitialScreen = !isStarted && capturedImages.length === 0;
   const isCapturing = isStarted && capturedImages.length < MAX_CAPTURES;
   const isFinished = capturedImages.length === MAX_CAPTURES;
+  const { isMobile } = useIsMobile();
 
   const generateQrCode = async () => {
     setIsGeneratingQr(true);
@@ -111,7 +113,7 @@ const PhotoBooth: React.FC = () => {
             <div className="w-full h-full overflow-hidden flex flex-row items-center justify-center">
               <Snowfall color="#fff" snowflakeCount={200} radius={[0.5, 4.5]} />
               <div className="relative w-1/2">
-                <img src={start} alt="start screen" className="w-fit h-fit" />
+                <img src={start} alt="start screen" />
                 <button
                   className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2 translate-y-12 cursor-pointer"
                   onClick={() => startPhotobooth()}
@@ -119,8 +121,9 @@ const PhotoBooth: React.FC = () => {
                   <img
                     src={arrow}
                     alt="start button"
-                    width={100}
-                    height={100}
+                    width={isMobile ? 60 : 100}
+                    height={isMobile ? 60 : 100}
+                    className={`${isMobile ? "-translate-y-5" : ""}`}
                   />
                 </button>
               </div>

@@ -5,6 +5,7 @@ import shareIcon from "../assets/share.png";
 import { handleShare, handleDownload } from "../helpers/helpers";
 import { FontSelector } from "./FontSelector";
 import { AddMessageInput } from "./AddMessageInput";
+import { useIsMobile } from "../helpers/useIsMobile";
 
 type Props = {
   stripRef: React.RefObject<HTMLDivElement | null>;
@@ -47,10 +48,15 @@ export const PhotoStripConfigurator = ({
   setFrame,
   frame,
 }: Props) => {
+  const { isMobile } = useIsMobile();
   return (
     <div className="flex flex-col items-center gap-4">
       <span>Customize Your Photo Strip:</span>
-      <div className="flex lg:flex-row items-start gap-4 flex-col">
+      <div
+        className={`flex lg:flex-row ${
+          isMobile ? "items-center" : "items-start"
+        } gap-4`}
+      >
         <div className="flex flex-row gap-2">
           <Sketch
             color={photoStripBgColor}
@@ -85,13 +91,13 @@ export const PhotoStripConfigurator = ({
             <label className="text-sm mr-2 self-center">Frames:</label>
             <select
               value={frame}
-              onChange={(e) =>
+              onChange={(e) => {
                 setFrame(
                   frames[
                     e.target.value as keyof typeof frames
                   ] as keyof typeof frames
-                )
-              }
+                );
+              }}
               className="w-full py-1 bg-cream border border-white/20 rounded text-[0.6em] tracking-normal outline-none focus:border-white/50 transition-colors"
             >
               {Object.keys(frames).map((key) => (
@@ -107,7 +113,7 @@ export const PhotoStripConfigurator = ({
                           frame === "none" ? "base-button" : "unselected-button"
                         }`}
             >
-              No Frame
+              DEFAULT
             </button>
           </div>
 
